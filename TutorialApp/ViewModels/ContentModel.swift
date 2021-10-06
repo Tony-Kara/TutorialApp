@@ -21,7 +21,7 @@ class ContentModel: ObservableObject {
         
        
         
-        // Get a url path to the json file
+        // Get a url path to the json file, we use the "withextension as we will be parsing the additional style data
         let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json") // You can put a breakpoint here to test if you are parsing the data correctly, remerber, if you run into errors, you probably did not map your model properly
         
         do {
