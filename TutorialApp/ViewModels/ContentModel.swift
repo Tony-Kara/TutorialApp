@@ -17,6 +17,12 @@ class ContentModel: ObservableObject {
     // current module index
     var currentModuleIndex = 0
     
+    //Current Lesson( this is an array of various lessons,  @Published keyword will ensure that when the property "currentLesson" changes, any view relying on it is notified and will be updated, this is how we track the current lesson the user is viewing and update the view with the detail content.
+    @Published var currentLesson: Lesson?
+    //Keeo track of the current lesson the user is viewing
+    var currentLessonIndex = 0
+    
+    
     var styleData: Data?
     
     init(){
@@ -81,6 +87,24 @@ class ContentModel: ObservableObject {
         
     // set the current module, this will allow me to enter the current module the user is looking at from the navigation link in the home screen
         currentModule = modules[currentModuleIndex]
+    }
+    
+    
+    //MARK: - Lesson Navigation methods
+    
+    func beginLesson(_ lessonIndex: Int){
+        
+        // check that the lesson index is within range of module lessons
+        
+        if lessonIndex < (currentModule!.content.lessons.count) {
+            
+            currentLessonIndex = lessonIndex
+        }
+        else{
+            currentLessonIndex = 0
+        }
+        //set the current lesson
+        currentLesson = currentModule!.content.lessons[currentLessonIndex]
     }
     
 }

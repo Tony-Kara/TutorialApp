@@ -21,7 +21,7 @@ struct HomeView: View {
                     
                     LazyVStack{
                         
-                        ForEach(model.modules){ module in
+                        ForEach(model.modules){ module in //index number is not being tracked here unlike ContentView where their is an index number and it is being tracked
                             
                             VStack(spacing: 20.0){ //you could use a spacer() instead of a vstack to seperate each row and add spacing between them
                             
@@ -50,7 +50,7 @@ struct HomeView: View {
             }
             .navigationTitle("Get started")
         }
-        
+        .navigationViewStyle(.stack)
     }
 }
 
