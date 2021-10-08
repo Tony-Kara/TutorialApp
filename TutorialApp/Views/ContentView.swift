@@ -23,33 +23,13 @@ struct ContentView: View {
                      // "lesson" is not an index number
                     ForEach(0..<model.currentModule!.content.lessons.count){ index in
                     
-                    // Lesson card
-                    
-                    ZStack {
-                        
-                        Rectangle()
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                            .frame( height: 66)
-                        
-                        HStack(spacing: 30){
-                            
-                            Text(String(index + 1))
-                            
-                            VStack(alignment: .leading) {
-                                
-                                Text(model.currentModule!.content.lessons[index].title)
-                                    .bold()
-                                Text("Video - \(model.currentModule!.content.lessons[index].duration)")
-                            }
-                        }
-                        
-                    }
+                        ContentViewRow(index: index)
                 }
                 }
                
             }
+            .padding()
+            .navigationTitle("Learn \(model.currentModule?.category ?? "")")
         }
         
     }
