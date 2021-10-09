@@ -91,7 +91,7 @@ class ContentModel: ObservableObject {
     
     
     //MARK: - Lesson Navigation methods
-    
+    // use this to drill from the ContentView() to the ContentDetailView(() 
     func beginLesson(_ lessonIndex: Int){
         
         // check that the lesson index is within range of module lessons
@@ -106,5 +106,38 @@ class ContentModel: ObservableObject {
         //set the current lesson
         currentLesson = currentModule!.content.lessons[currentLessonIndex]
     }
+    
+    
+    func hasNextLesson() -> Bool {
+        
+        if currentLessonIndex + 1 < currentModule!.content.lessons.count {
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    
+    
+    func nextLesson() {
+        
+        // Advance to the next lesson index
+        currentLessonIndex += 1
+        
+        //check that it is within range
+        if currentLessonIndex  <  currentModule!.content.lessons.count {
+            //set the current lesson property
+            currentLesson = currentModule!.content.lessons[currentLessonIndex]
+        }
+        else {
+            //Reset the lesson state
+            currentLessonIndex = 0
+            currentLesson = nil
+        }
+    }
+    
+    
+    
+    
     
 }
