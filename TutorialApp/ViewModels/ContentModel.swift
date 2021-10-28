@@ -22,6 +22,7 @@ class ContentModel: ObservableObject {
     //Keep track of the current lesson the user is viewing
     var currentLessonIndex = 0
     
+    @Published var lessonDescription = NSAttributedString() // use this to add formatting(html and css) to the explanation text
     
     var styleData: Data?
     
@@ -104,7 +105,10 @@ class ContentModel: ObservableObject {
             currentLessonIndex = 0
         }
         //set the current lesson
-        currentLesson = currentModule!.content.lessons[currentLessonIndex] // This answers the question of what lesson the user clicks on, on which row number which is dertermined by the index number of the lesson array
+        currentLesson = currentModule!.content.lessons[currentLessonIndex] // This answers the question of what lesson the user clicks on, on which row number which is dertermined by the index number of the lesson array.
+        
+        // create an attributedText with styling from the explanation text
+        lessonDescription = addStyling(currentLesson!.explanation)
     }
     
     
@@ -128,6 +132,9 @@ class ContentModel: ObservableObject {
         if currentLessonIndex  <  currentModule!.content.lessons.count {
             //set the current lesson property, currentLesson has the published keywork, any changes to it is listened to and view using it will get updated
             currentLesson = currentModule!.content.lessons[currentLessonIndex]
+            
+            // create an attributedText with styling from the explanation text
+            lessonDescription = addStyling(currentLesson!.explanation)
         }
         else {
             //Reset the lesson state
@@ -136,7 +143,34 @@ class ContentModel: ObservableObject {
         }
     }
     
+    //MARK: - Code Styling
     
+    private func addStyling(_ htmlString: String) -> NSAttributedString {
+        var resultString = NSAttributedString()
+        var data = Data()
+    
+        // Add the styling data
+        if let styleDataUpdate = styleData {
+            data.append(styleDataUpdate)
+        }
+        // Add the html data
+        data.append(Data(htmlString.utf8)) // the htmlString is the explanation text
+        
+        // Convert to attributed string
+        
+        do {
+             let attributedString = try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
+                resultString = attributedString
+            
+            
+        }
+        catch {
+            print("Could not turn html to attributed string")
+        }
+        
+       
+        return resultString
+    }
     
     
     

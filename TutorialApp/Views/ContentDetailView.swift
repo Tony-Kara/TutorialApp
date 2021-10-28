@@ -54,6 +54,7 @@ struct ContentDetailView: View {
       
         }
         .padding()
+        .navigationTitle(lesson?.title ?? "")
     }
 }
 
