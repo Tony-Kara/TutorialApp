@@ -12,8 +12,8 @@ struct ContentDetailView: View {
     
     var body: some View {
         
-        let lesson = model.currentLesson
-        //wrap the "(lesson?.video ?? "") in a bracket to ensure it gets evaluated first before concantenating it
+        let lesson = model.currentLesson // this represent a single row inside the lesson array, that is the currentLesson the user is viewing
+        //wrap the "(lesson?.video ?? "") in a bracket to ensure it gets evaluated first before concantenating it, the lesson video "(lesson?.video ?? "") )" will get updated here immediately the currentLessonIndex changes when the model.nextLesson() is called
         let url = URL(string: Constants.videoHostUrl +  (lesson?.video ?? "") )
         
         VStack{
@@ -25,7 +25,8 @@ struct ContentDetailView: View {
         
         // Description
         
-        
+        CodeTextView()
+            
         // show  Next lesson button only if there is a next lesson
             
             if model.hasNextLesson(){

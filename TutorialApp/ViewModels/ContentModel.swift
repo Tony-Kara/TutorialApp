@@ -11,7 +11,7 @@ class ContentModel: ObservableObject {
     // List of modules
     @Published var modules = [Module]()
     
-    // Current module, this will keep the state of things happening like "what lesson the user is looking at or what question the user is currently answering. create an instance of the model which will be specific to the Module dataType and not an array of Module() struct, in essence, i have created an array of [Module]() to loop and get what i generally require at the top hierachy which is the HomeView() and an instance of the Module() to get what i require on a deeper level after the user haas clicked on the module they are interested in.
+    // Current module, this will keep the state of things happening like "what lesson the user is looking at or what question the user is currently answering. create an instance of the model which will be specific to the Module dataType and not an array of Module() struct, in essence, i have created an array of [Module]() to loop and get what i generally require at the top hierachy which is the HomeView() and an instance of the Module() to get what i require on a deeper level after the user has clicked on the module they are interested in.
     @Published var currentModule: Module?
     
     // current module index
@@ -19,7 +19,7 @@ class ContentModel: ObservableObject {
     
     //Current Lesson( this is an array of various lessons,  @Published keyword will ensure that when the property "currentLesson" changes, any view relying on it is notified and will be updated, this is how we track the current lesson the user is viewing and update the view with the detail content.
     @Published var currentLesson: Lesson?
-    //Keeo track of the current lesson the user is viewing
+    //Keep track of the current lesson the user is viewing
     var currentLessonIndex = 0
     
     
@@ -85,7 +85,7 @@ class ContentModel: ObservableObject {
             
         }
         
-    // set the current module, this will allow me to enter the current module the user is looking at from the navigation link in the home screen
+    // set the current module, this will allow me to enter the current module the user is looking at from the navigation link in the home screen, this answers the question of what module the user clicked on, on which row number which is dertermined by the index number of the Module array
         currentModule = modules[currentModuleIndex]
     }
     
@@ -104,7 +104,7 @@ class ContentModel: ObservableObject {
             currentLessonIndex = 0
         }
         //set the current lesson
-        currentLesson = currentModule!.content.lessons[currentLessonIndex]
+        currentLesson = currentModule!.content.lessons[currentLessonIndex] // This answers the question of what lesson the user clicks on, on which row number which is dertermined by the index number of the lesson array
     }
     
     
@@ -126,7 +126,7 @@ class ContentModel: ObservableObject {
         
         //check that it is within range
         if currentLessonIndex  <  currentModule!.content.lessons.count {
-            //set the current lesson property
+            //set the current lesson property, currentLesson has the published keywork, any changes to it is listened to and view using it will get updated
             currentLesson = currentModule!.content.lessons[currentLessonIndex]
         }
         else {
