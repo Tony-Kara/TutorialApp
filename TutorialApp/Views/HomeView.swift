@@ -25,16 +25,32 @@ struct HomeView: View {
                             
                             VStack(spacing: 20.0){ //you could use a spacer() instead of a vstack to seperate each row and add spacing between them
                             
-                                NavigationLink {
+                                NavigationLink(tag: module.id, selection: $model.currentContentSelected) {
                                     ContentView()
                                         .onAppear {
                                             model.beginModule(module.id)
+                                            print(model.currentContentSelected)
                                         }
                                 } label: {
                                     //Learning stack
                                     
                                     HomeViewRow(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time)
                                 }
+
+                            
+//                                NavigationLink {
+//                                    ContentView()
+//                                        .onAppear {
+//                                            model.beginModule(module.id)
+//                                        }
+//                                }
+//                            tag: module.id,
+//                            selection: model.$currentContentSelected,
+//                            label: {
+//                                    //Learning stack
+//
+//                                    HomeViewRow(image: module.content.image, title: "Learn \(module.category)", description: module.content.description, count: "\(module.content.lessons.count) Lessons", time: module.content.time)
+//                                }
 
                             // Test Card
                             

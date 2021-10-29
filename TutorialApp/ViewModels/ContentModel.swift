@@ -24,6 +24,9 @@ class ContentModel: ObservableObject {
     
     @Published var lessonDescription = NSAttributedString() // use this to add formatting(html and css) to the explanation text
     
+    // Current selected content and test, this will allow me to navigate from the selected lesson back to the Home view, i will save the Tag number inside this property, i will be using this property inside a navigationLink
+    @Published var currentContentSelected: Int?
+    
     var styleData: Data?
     
     init(){
