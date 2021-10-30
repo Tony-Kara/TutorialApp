@@ -22,10 +22,15 @@ class ContentModel: ObservableObject {
     //Keep track of the current lesson the user is viewing
     var currentLessonIndex = 0
     
-    @Published var lessonDescription = NSAttributedString() // use this to add formatting(html and css) to the explanation text
+    // current question
+    @Published var currentQuestion: Question?
+    var currentQuestionIndex = 0 
+    
+    @Published var codeText = NSAttributedString() // use this to add formatting(html and css) to the explanation text, we will be storing values from "currentQuestion!.content" and "currentLesson!.explanation" inside this property.
     
     // Current selected content and test, this will allow me to navigate from the selected lesson back to the Home view, i will save the Tag number inside this property, i will be using this property inside a navigationLink
     @Published var currentContentSelected: Int?
+    @Published var currentTestSelected:Int?
     
     var styleData: Data?
     
@@ -110,8 +115,8 @@ class ContentModel: ObservableObject {
         //set the current lesson
         currentLesson = currentModule!.content.lessons[currentLessonIndex] // This answers the question of what lesson the user clicks on, on which row number which is dertermined by the index number of the lesson array.
         
-        // create an attributedText with styling from the explanation text
-        lessonDescription = addStyling(currentLesson!.explanation)
+        // create an attributedText with styling from the explanation text, more like converting the html contents to an attributed string that can be used in displaying Texts that contains styling
+        codeText = addStyling(currentLesson!.explanation)
     }
     
     
@@ -123,6 +128,27 @@ class ContentModel: ObservableObject {
         else{
             return false
         }
+    }
+    
+    // This is for the test part of the module
+    func beginTest(_ moduleId: Int) {
+        
+        // Set the current module
+        beginModule(moduleId)
+        
+        // Set the current question index
+        currentQuestionIndex = 0
+        
+        //if there are questions, set the current question to the first one
+        if currentModule?.test.questions.count ?? 0 > 0 {
+            currentQuestion = currentModule?.test.questions[currentQuestionIndex]
+            
+            // Set the question content as an attributed text
+            codeText = addStyling(currentQuestion!.content)
+        }
+        
+        
+        
     }
     
     
@@ -137,7 +163,7 @@ class ContentModel: ObservableObject {
             currentLesson = currentModule!.content.lessons[currentLessonIndex]
             
             // create an attributedText with styling from the explanation text
-            lessonDescription = addStyling(currentLesson!.explanation)
+            codeText = addStyling(currentLesson!.explanation)
         }
         else {
             //Reset the lesson state

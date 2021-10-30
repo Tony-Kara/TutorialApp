@@ -24,7 +24,7 @@ struct CodeTextView: UIViewRepresentable {
     func updateUIView(_ textView: UITextView, context: Context) {
         
         //set the attributed text for the lesson, styling has been added to the lessonDescription in the ViewModel
-        textView.attributedText = model.lessonDescription
+        textView.attributedText = model.codeText
         //scroll back to the top
         // this will allow the Text to scroll all the way up after the "Next lesson" button is clicked.
         textView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)

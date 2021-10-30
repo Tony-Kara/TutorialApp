@@ -41,7 +41,7 @@ struct ContentView: View {
             // change the font color of text inside the navigation link to black
             .accentColor(.black)
             .padding()
-            .navigationTitle("Learn \(model.currentModule?.category ?? "")")
+            .navigationBarTitle("Learn \(model.currentModule?.category ?? "")")
         }
         
     }
