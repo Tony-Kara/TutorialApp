@@ -12,7 +12,10 @@ struct TestView: View {
     @State var selectedAnswerIndex: Int?
     @State var numCorrect = 0
     @State var submitted = false
+    
     var body: some View {
+        
+        
         
         if model.currentQuestion != nil {
             
@@ -91,12 +94,28 @@ struct TestView: View {
                 Button {
                     
                     // change submitted state to true
-                    submitted = true
-                    
-                    //check the answer and increment the counter if correct
-                    if selectedAnswerIndex == model.currentQuestion?.correctIndex {
-                        numCorrect += 1
+                    if submitted == true {
+                        // Answer has been submitted, move to next question
+                        model.nextQuestion()
+                        
+                        // Reset properties
+                        submitted = false
+                        selectedAnswerIndex = nil
                     }
+                    
+                    else {
+                        //submit the answer
+                        
+                        //change submitted state to true
+                        submitted = true
+                        
+                        //check the answer and increment the counter if correct
+                        if selectedAnswerIndex == model.currentQuestion?.correctIndex {
+                            numCorrect += 1
+                        }
+                    }
+                    
+                   
                     
                 } label: {
                     ZStack{
@@ -104,7 +123,7 @@ struct TestView: View {
                         RectangleCard(color: .green)
                             .frame(height: 48)
                        
-                        Text("submit")
+                        Text(buttonText)
                             .bold()
                             .foregroundColor(Color.white)
                      
@@ -120,6 +139,22 @@ struct TestView: View {
         }
         else{
             ProgressView()
+        }
+    }
+    
+    var buttonText: String {
+        // check if answer has been submitted
+        if submitted == true {
+            // This is the last question
+            if model.currentQuestionIndex + 1  == model.currentModule?.test.questions.count {
+                return "Finish"
+            }
+            else {
+                return "Next"
+            }
+        }
+        else {
+            return "Submit"
         }
     }
     
