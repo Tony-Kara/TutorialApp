@@ -138,7 +138,9 @@ struct TestView: View {
             .navigationBarTitle("\(model.currentModule?.category ?? "") Test")
         }
         else{
-            ProgressView()
+           // ProgressView()
+            // if current question is nil and we have reach the last question in the quiz and the finish button is displayed, we show the result view WHICH IS the TestResultView, clicking finish in this new view will take us to the HomeView()
+            TestResultView(numCorrect: numCorrect)
         }
     }
     

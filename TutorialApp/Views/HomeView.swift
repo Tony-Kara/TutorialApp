@@ -24,7 +24,7 @@ struct HomeView: View {
                         ForEach(model.modules){ module in //index number is not being tracked here unlike ContentView where their is an index number and it is being tracked
                             
                             VStack(spacing: 20.0){ //you could use a spacer() instead of a vstack to seperate each row and add spacing between them
-                            
+                                // save the module.id in the model.currentContentSelected property, once this is set to nil inside a button at the ContentDetailView class, it will bring the user back to this home view.
                                 NavigationLink(tag: module.id, selection: $model.currentContentSelected) {
                                     ContentView()
                                         .onAppear {
@@ -39,7 +39,6 @@ struct HomeView: View {
 
                             
                             // Test Card
-                            
                                 NavigationLink(tag: module.id, selection: $model.currentTestSelected) {
                                     TestView()
                                         .onAppear {
