@@ -51,6 +51,7 @@ struct HomeView: View {
                                 }
 
                             }
+                            .padding(.bottom,10)
                         }
                     }
                     .accentColor(.black)
@@ -59,6 +60,18 @@ struct HomeView: View {
                 }
             }
             .navigationTitle("Get started")
+            // once the user drills back to the homeview from the ContentView after viewing the last video, we need to set the model.currentModule back to nil as the user might need to enter a diofferent module which requires a new index count of the elements in the module, the model.currentContentSelected property is set to nil to take the user back to the HomeView
+            .onChange(of: model.currentContentSelected) { changedValue in
+                if changedValue == nil {
+                    model.currentModule = nil
+                }
+            }
+            .onChange(of: model.currentTestSelected) { changedValue in
+                if changedValue == nil {
+                    model.currentModule = nil
+                }
+
+            }
         }
         .navigationViewStyle(.stack)
     }

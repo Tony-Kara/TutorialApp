@@ -12,6 +12,19 @@ struct ContentViewRow: View {
     @EnvironmentObject var model: ContentModel
     var index: Int
     
+    var lesson: Lesson {
+        // here, i am performing checks to ensure that model.currentModule != nil and the currentModule has the right number of elements to avoid index out of range error
+        if model.currentModule != nil && index < model.currentModule!.content.lessons.count {
+            return model.currentModule!.content.lessons[index]
+        }
+        
+        else {
+            return Lesson(id: 0, title: "", video: "", duration: "", explanation: "")
+        }
+    }
+    
+  
+    
     var body: some View {
        
         // Lesson card
@@ -31,9 +44,9 @@ struct ContentViewRow: View {
                 
                 VStack(alignment: .leading) {
                     
-                    Text(model.currentModule!.content.lessons[index].title)
+                    Text(lesson.title)
                         .bold()
-                    Text("Video - \(model.currentModule!.content.lessons[index].duration)")
+                    Text("Video - \(lesson.duration)")
                 }
             }
             .padding()

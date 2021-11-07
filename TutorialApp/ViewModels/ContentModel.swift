@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ContentModel: ObservableObject {
     // List of modules
@@ -35,8 +36,11 @@ class ContentModel: ObservableObject {
     var styleData: Data?
     
     init(){
-        
+        // Parse local included json data
         getlocalData()
+        
+        //  Download remote json file and parse data
+        getRemoteData()
     }
     
     
@@ -80,6 +84,54 @@ class ContentModel: ObservableObject {
             
     }
     
+    
+    func getRemoteData() {
+        
+        // string path
+        let urlString = "https://tony-kara.github.io/TutorialAppData/data2.json"
+        
+        // create a url object
+        let url = URL(string: urlString)
+        
+        // could not create a url
+        guard url != nil else { return }
+        
+        // create a URLRequest object
+        let request = URLRequest(url: url!)
+        
+        // Get the session and kick off the task
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: request) { data, response, error in
+            
+            // check if there is an error
+            guard error == nil else {
+                // there was an error
+                return
+            }
+            do{
+              
+                // Try to decode the json
+                 let jsonDecoder = JSONDecoder()
+                 let modules =  try jsonDecoder.decode([Module].self, from: data!)
+                
+                DispatchQueue.main.async {
+                    // Append parsed modules into modules property
+                    self.modules += modules
+                }
+                
+            }
+            catch{
+                // could not parse json
+            }
+            
+        }
+        // kick off data task
+        dataTask.resume()
+        
+        
+        
+    }
+    
     //MARK: - Module navigation methods
     
     
@@ -121,6 +173,10 @@ class ContentModel: ObservableObject {
     
     
     func hasNextLesson() -> Bool {
+        
+        guard currentModule != nil else {
+            return false // return view to the Homescreen if currentModule == nil
+        }
         
         if currentLessonIndex + 1 < currentModule!.content.lessons.count {
             return true
